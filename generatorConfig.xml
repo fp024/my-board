@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC
+    "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+    "https://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <!-- MyBatis Dynamic SQL Library를 사용. XML매퍼는 생성하지 않음. -->
+  <!-- 참조: https://mybatis.org/generator/quickstart.html -->
+  <context id="MyBatis3DynamicSqlTest" targetRuntime="MyBatis3DynamicSql">
+    <property name="javaFileEncoding" value="UTF-8"/>
+
+    <!--
+      XML Mapper가 자동으로 합쳐지는 것을 방지:
+      overwrite를 true로 해도 append가 되는 현상이 있어서 이 플러그인이 필요하다.
+    -->
+    <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+
+    <!-- https://mybatis.org/generator/reference/plugins.html -->
+    <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+
+    <!-- 자동생성 주석 금지 -->
+    <commentGenerator>
+      <property name="suppressAllComments" value="true"/>
+      <property name="useLegacyGeneratedAnnotation" value="false"/>
+    </commentGenerator>
+
+    <jdbcConnection
+        connectionURL="jdbc:oracle:thin:@//localhost:1521/FREEPDB1"
+        driverClass="oracle.jdbc.OracleDriver"
+        password="book_ex"
+        userId="book_ex"
+    />
+
+    <!-- Java 도메인 모델 생성 -->
+    <modelGenerator
+        targetPackage="org.fp024.domain.generated"
+        targetProject="src/main/java"> <!-- eclipse의 generator에서는 프로젝트 폴더명부터 시작해야하지만, Maven 플러그인으로 실행시는 src부터 시작한다. -->
+      <property name="enableSubPackages" value="true"/>
+      <property name="trimStrings" value="true"/>
+    </modelGenerator>
+
+    <!-- 메퍼 인터페이스 (레파지토리 인터페이스 ) -->
+    <clientGenerator
+        targetPackage="org.fp024.mapper.generated"
+        targetProject="src/main/java">
+      <property name="enableSubPackages" value="true"/>
+    </clientGenerator>
+
+
+    <!-- 타켓 테이블 - 게시판 테이블 -->
+    <table tableName="tbl_board" domainObjectName="BoardVO"
+           mapperName="BoardMapper">
+
+      <!-- 키생성 컬럼과 쿼리를 정의한다. -->
+      <!-- 시퀀스를 호출해서 값을 넣기 때문에, identity를 false로 둔다. MySQL AutoIncreatement였다면 true로 두고, sqlStatemen="MySql" 로 설정할 필요가 있다. -->
+      <generatedKey column="bno" identity="false"
+                    sqlStatement="SELECT seq_board.nextval FROM DUAL"/>
+
+      <!-- Oracle에서 bno 컬럼을 NUMBER(18)으로 설정 jdbcType은 따로 지정하지 않으면 NUMERIC으로 설정된다. -->
+      <columnOverride column="bno" property="bno" javaType='java.lang.Long'/>
+      <columnOverride column="content" property="content"
+                      jdbcType="CLOB"
+                      javaType='java.lang.String'/>
+      <columnOverride column="regdate" property="regdate"
+                      javaType='java.time.LocalDateTime'/>
+      <columnOverride column="updatedate" property="updateDate"
+                      javaType='java.time.LocalDateTime'/>
+      <columnOverride column="replycnt" property="replyCount" javaType='int'/>
+
+    </table>
+
+    <!-- 타켓 테이블 - 댓글 테이블 -->
+    <table tableName="tbl_reply" domainObjectName="ReplyVO"
+           mapperName="ReplyMapper">
+      <!-- 키생성 컬럼과 쿼리를 정의한다. -->
+      <!-- 시퀀스를 호출해서 값을 넣기 때문에, identity를 false로 둔다. MySQL AutoIncreatement였다면 true로 두고, sqlStatemen="MySql" 로 설정할 필요가 있다. -->
+      <generatedKey column="rno" identity="false"
+                    sqlStatement="SELECT seq_reply.nextval FROM DUAL"/>
+
+      <columnOverride column="rno" property="rno" javaType='java.lang.Long'/>
+      <columnOverride column="replydate" property="replyDate"
+                      javaType='java.time.LocalDateTime'/>
+      <columnOverride column="updatedate" property="updateDate"
+                      javaType='java.time.LocalDateTime'/>
+    </table>
+
+
+    <!-- 타켓 테이블 - 첨부파일 정보 테이블 -->
+    <table tableName="tbl_attach" domainObjectName="BoardAttachVO"
+           mapperName="BoardAttachMapper">
+      <columnOverride column="uploadpath" property="uploadPath"/>
+      <columnOverride column="filename" property="fileName"/>
+      <columnOverride column="filetype" property="fileType" jdbcType="CHAR"
+                      javaType="org.fp024.domain.FileType"
+                      typeHandler="org.fp024.typehandler.CustomEnumTypeHandler"/>
+      <columnOverride column="bno" property="bno" javaType="java.lang.Long"/>
+    </table>
+
+    <!--
+      참고: 아래 내용은 jex06에서 먼저 실행한 내용 가져오기만하고 실제로 매퍼생성을 하진 않았다.
+           자동생성을 하더라도 수정을 해야되서, jex06에서 만들고 수정했던 내용을 그대로 옮겨와서
+           또 만들고 수정하진 않았음.
+    -->
+    <!--
+      타켓 테이블 - 회원 테이블
+      회원과 권한의 1:N 관계를 표현하는 List<AuthVO> 는 MyBatis Generator로 표현할 수 없기 때문에,
+      그 부분은 자동생성 이후 수동으로 클래스 소스를 수정해야한다.
+      
+      수정보다는 자동생성된 VO는 그대로 유지하고, DTO로 감싸서 추가 필드를 추가하는게 나을 수 있다.
+    -->
+    <table tableName="TBL_MEMBER" domainObjectName="MemberVO"
+           mapperName="MemberMapper">
+      <columnOverride column="USERID" property="userId"/>
+      <columnOverride column="USERPW" property="userPassword"/>
+      <columnOverride column="USERNAME" property="userName"/>
+
+      <columnOverride column="REGDATE" property="registerDate"
+                      javaType="java.time.LocalDateTime"/>
+      <columnOverride column="UPDATEDATE" property="updateDate"
+                      javaType='java.time.LocalDateTime'/>
+
+      <columnOverride column="ENABLED" property="enabled" jdbcType="CHAR"
+                      javaType="org.fp024.domain.EnabledType"
+                      typeHandler="org.fp024.typehandler.CustomEnumTypeHandler"/>
+    </table>
+
+    <!--
+      타켓 테이블 - 권한 테이블
+      ex06 프로젝트에서는 회원테이블과 권한테이블을 JOIN해서 회원정보를 가져왔기 때문에,
+      권한 테이블에 대해서는 별도로 Mapper를 만들지 않았다.
+
+      그리고 회원이나, 권한에 대한 Create, Update, Delete를 기능상으로 구현을 안해서 그렇기도 한데...
+      여기선 자동생성되는 부분이니 일단 AuthMapper를 만들게 하자.
+    -->
+    <table tableName="TBL_MEMBER_AUTH" domainObjectName="AuthVO"
+           mapperName="AuthMapper">
+      <columnOverride column="USERID" property="userId"/>
+      <columnOverride column="AUTH" property="auth" jdbcType="VARCHAR"
+                      javaType="org.fp024.domain.MemberAuthType"
+                      typeHandler="org.fp024.typehandler.CustomEnumTypeHandler"/>
+    </table>
+
+  </context>
+</generatorConfiguration>

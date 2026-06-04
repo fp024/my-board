@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fp024.mapper.MemberQueryMapper">
+  <!--
+      JOIN의 결과로는 ResultMap을 XML로 만들어야한다고 한다.
+      https://mybatis.org/mybatis-dynamic-sql/docs/select.html#xml-mapper-for-join-statements
+
+      아래 부분은 MyBatis의 제약 때문에 Java 코드만으로는 처리할 수가 없어서 그런 것 같다.
+      collection 때문에 그런거 같음..
+  -->
+  <resultMap id="MemberResultMap" type="memberDTO">
+    <id property="memberVO.userId" column="userid"/>
+    <result property="memberVO.userPassword" column="userpw"/>
+    <result property="memberVO.userName" column="username"/>
+    <result property="memberVO.enabled" column="enabled" typeHandler="org.fp024.typehandler.CustomEnumTypeHandler"/>
+    <result property="memberVO.registerDate" column="regdate"/>
+    <result property="memberVO.updateDate" column="updateDate"/>
+    <collection property="authList" resultMap="AuthResultMap"/>
+  </resultMap>
+
+  <resultMap id="AuthResultMap" type="authVO">
+    <result property="userId" column="userId"/>
+    <result property="auth" column="auth" typeHandler="org.fp024.typehandler.CustomEnumTypeHandler"/>
+  </resultMap>
+
+</mapper>

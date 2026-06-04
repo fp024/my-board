@@ -1,0 +1,47 @@
+version: "0.2"
+ignorePaths:
+  - .gitignore
+dictionaryDefinitions: []
+dictionaries: []
+words:
+  - classloaders
+  - CLOB
+  - Dlvq
+  - Dskip
+  - errorlevel
+  - FREEPDB
+  - Gson
+  - gvenzl
+  - healthcheck
+  - hikari
+  - initdb
+  - Jstl
+  - NEXTVAL
+  - NOCACHE
+  - NOCYCLE
+  - oradata
+  - Pjetty
+  - Plinux
+  - Ptomcat
+  - regdate
+  - replycnt
+  - replydate
+  - replyer
+  - rttr
+  - SETLOCAL
+  - Smails
+  - SQLCODE
+  - SQLERROR
+  - sqlplus
+  - SYSTIMESTAMP
+  - TABLESPACE
+  - temurin
+  - Thumbnailator
+  - updatedate
+  - uploadpath
+  - usebackq
+  - userpw
+  - VARCHAR
+  - webapps
+ignoreWords: []
+import: []

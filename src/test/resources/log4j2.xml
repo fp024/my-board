@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <!-- Appenders -->    
+    <Appenders>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5p: %c - %m%n"/>
+        </Console>
+    </Appenders>
+    
+    <!-- Application Loggers -->
+    <Loggers>
+        <Logger name="org.fp024" level="info"/>
+
+        <!-- mapper 인터페이스 경로 또는 이름을 지정해줘도 어느정도 로그 보는데는 지장이 없어보임. -->
+        <!-- https://hashcode.co.kr/questions/1715/spring4-mybatis-%EC%BF%BC%EB%A6%AC-%EB%A1%9C%EA%B7%B8-%EB%82%A8%EA%B8%B0%EB%8A%94-%EB%B0%A9%EB%B2%95%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-%EB%AC%B8%EC%9D%98%EB%93%9C%EB%A6%BD%EB%8B%88%EB%8B%A4 -->
+        <!--  MyBatis 3.2부터는 myBatis에서 지정하는 namespace별로 로그레벨을 지정할 수 있음. -->
+        <Logger name="org.fp024.mapper" level="trace"/>
+        <Logger name="org.fp024.mapper.generated" level="trace"/>
+        
+        <!-- 3rdparty Loggers -->
+        <Logger name="org.springframework.core" level="info"/>
+        <Logger name="org.springframework.beans" level="info"/>
+        <Logger name="org.springframework.context" level="info"/>
+        <Logger name="org.springframework.web" level="info"/>
+
+        <!-- Root Logger -->
+        <Root level="info">
+            <Appender-Ref ref="STDOUT" />
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.fp024</groupId>
+  <artifactId>study-dependencies-parent</artifactId>
+  <name>${project.artifactId}</name>
+  <packaging>pom</packaging>
+  <version>1.0.0-BUILD-SNAPSHOT</version>
+  <properties>
+    <java.version>17</java.version>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+
+    <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+    <javax.servlet.jsp-api.version>2.3.3</javax.servlet.jsp-api.version>
+    <jstl.version>1.2</jstl.version>
+    <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
+
+    <org.springframework-version>5.3.39</org.springframework-version>
+
+    <spring-security.version>5.8.16</spring-security.version>
+
+    <org.aspectj-version>1.9.25.1</org.aspectj-version>
+
+    <quartz.version>2.5.2</quartz.version>
+
+    <jackson.version>2.21.2</jackson.version>
+    <!-- 마이크로 보안 패치가 있을때, jackson-databind 만 패치되기도 함. 
+         jackson-databind는 별도로 분리해두는게 낫겠다. -->
+    <jackson-databind.version>${jackson.version}</jackson-databind.version>
+    <gson.version>2.13.2</gson.version>
+
+    <log4j2.version>2.25.4</log4j2.version>
+
+    <lombok.version>1.18.44</lombok.version>
+
+    <mybatis.version>3.5.19</mybatis.version>
+    <mybatis.spring.version>2.1.2</mybatis.spring.version>
+    <mybatis.dynamic.sql.version>2.0.0</mybatis.dynamic.sql.version>
+
+    <hikaricp.version>7.0.2</hikaricp.version>
+
+    <!-- 
+      설치해서 사용중인 Oracle DB 버전이 XE 18.3이여서, 드라이버 버전도 동일하게 두었었는데, 
+      최신버전을 쓰더라도 특별한 문제는 없었다.
+      https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc11
+    -->
+    <ojdbc11.version>23.26.1.0.0</ojdbc11.version>
+    <ojdbc17.version>23.26.1.0.0</ojdbc17.version>
+
+    <!-- 몇몇 프로젝트에서는 hsqldb로 사용해보자... -->
+    <hsqldb.version>2.7.4</hsqldb.version>
+
+    <thumbnailator.version>0.4.21</thumbnailator.version>
+
+    
+    <junit-v5.version>5.14.3</junit-v5.version>
+    <junit-v6.version>6.0.3</junit-v6.version>
+    <!-- 기본은 Junit 5.x 버전 유지 -->
+    <!-- part-last는 최신 버전을 사용하도록 하위에서 재정의한다 -->
+    <junit.version>${junit-v5.version}</junit.version>
+
+    <json-path.version>3.0.0</json-path.version>
+
+    <!--
+      Hibernate 5.6에 기본 포함된 byte-buddy 버전과 mockito가 사용하는 버전이 안맞아서
+      Mockito를 사용한 테스트가 실패한다.
+      최신 프로젝트는 계속 버전업 해보고 Hibernate 5.6 사용 프로젝트만 5.13.0으로 유지해보자!
+
+      https://github.com/mockito/mockito/issues/3463
+    -->
+    <!-- Hibernate 5.6 사용 프로젝트는 5.13.0까지 유지 -->
+    <mockito-5-13.version>5.13.0</mockito-5-13.version>
+    <!-- 최신 프로젝트는 계속 버전업 -->
+    <mockito.version>5.23.0</mockito.version>
+
+    <hamcrest.version>3.0</hamcrest.version>
+    
+    <assertj.version>3.27.7</assertj.version>
+
+    <!-- 2.0.0 부터는 Servlet 5.0이상, Java 17이 요구사항이다. 1.1.4 버전을 유지한다. -->
+    <java-time-jsptags.version>1.1.4</java-time-jsptags.version>
+
+    <commons-fileupload.version>1.6.0</commons-fileupload.version>
+
+    <!-- Maven 플러그인 버전 관리 -->
+    <mybatis-generator-maven-plugin.version>2.0.0</mybatis-generator-maven-plugin.version>
+    <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
+    <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
+    <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
+    <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+    <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+    <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
+
+    <!-- WAS에 따라서 JSTL이 포함되어있는 경우가 있음 (예: Jetty), 기본은 포함되지 않은 것으로 설정 -->
+    <jstl-scope.type>compile</jstl-scope.type>
+
+    <!-- 
+      1. web.xml기반 설정 프로젝트에서 소스파일 변경으로 Jetty의 자동재시작이 일어날때, 
+         예외가 발생하여, 9.x에서 10.x로 버전업 해봤는데, 버전 문제는 아닌 것 같다.
+         버전업을 해도 원인은 동일함, JavaConfig 설정으로 사용하는 프로젝트에서는 오류가 발생하지 않고 정상 재시작한다..
+    
+         https://github.com/eclipse/jetty.project/issues/4076
+              
+      2. Jetty 11.x버전은 주요 서블릿 패키지명이 바뀌였기 때문에 Spring 5에서 사용할 수 없다.          
+         https://stackoverflow.com/questions/66217350/deploying-spring-5-x-on-tomcat-10-x-with-jakarta-package        
+    -->    
+    <jetty10.version>10.0.26</jetty10.version>
+    <!-- Jetty Maven Plugin 12.x 버전이 나왔는데, groupId, artifactId가 바뀌었다. -->
+    <!-- https://github.com/jetty/jetty.project/pull/10810 -->
+    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin -->
+    <!-- 
+      Jetty 12.0.8 부터 Spring의 WebApplicationInitializer 들을 인식을 못해서 
+      web.xml이 없다고 하면서 오류가 난다. 😅, 해결될 때까지 12.0.7로 두자!
+    -->
+    <jetty12.version>12.1.8</jetty12.version>
+
+
+    <!-- Jetty Http 포트 기본값 -->
+    <jetty.port>8080</jetty.port>
+    <!-- Jetty Context Path 설정 기본값 -->
+    <jetty-context-path>/</jetty-context-path>
+    <!-- XML 컨텍스트 설정일 때는 잘 되는데, Spring Java Config 설정일 때는 예외가 난다. 일단 자동 재배포 재시작의 기본 값은 비활성화 상태로 두자 -->
+    <jetty-auto-deploy-seconds>-1</jetty-auto-deploy-seconds>
+
+    <!-- cargo 플러그인 설정 -->
+    <cargo.version>1.10.27</cargo.version>
+    <cargo-tomcat.containerId>tomcat9x</cargo-tomcat.containerId>
+    <cargo-tomcat.version>9.0.117</cargo-tomcat.version>
+    <cargo-tomcat10.version>10.1.54</cargo-tomcat10.version>
+    <cargo-context-path>${jetty-context-path}</cargo-context-path>
+    <cargo-server-port>${jetty.port}</cargo-server-port>
+    
+    
+    <!-- ### part last ###-->
+    <!-- 공통 -->
+    <querydsl.version>5.1.0</querydsl.version>
+    <!-- 6.x가 Hibernate 6, 7.x 부터 Hibernate 7지원 -->
+    <openfeign-querydsl.version>6.12</openfeign-querydsl.version>
+
+    <!-- Spring 5 -->
+    <hibernate-v5.version>5.6.15.Final</hibernate-v5.version>
+    <spring-data-jpa-v2.version>2.7.18</spring-data-jpa-v2.version>
+    <jetbrains.annotations.version>26.1.0</jetbrains.annotations.version>
+    <!-- Spring 6 -->
+    <spring-v6.version>6.2.18</spring-v6.version>
+    <spring-security-v6.version>6.5.9</spring-security-v6.version>
+
+    <!-- ⚠️ QueryDSL 5.1.0이 Hibernate 7.x에는 호환되지 않는 것 같다. -->
+    <hibernate-v6.version>6.6.48.Final</hibernate-v6.version>
+    
+    <spring-data-jpa-v3.version>3.5.10</spring-data-jpa-v3.version>
+
+    <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
+    <jakarta.xml.bind-api.version>4.0.1</jakarta.xml.bind-api.version>
+    <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
+
+    <jakarta.servlet.jsp.jstl-api.version>3.0.0</jakarta.servlet.jsp.jstl-api.version>
+    <jakarta.servlet.jsp.jstl.version>3.0.1</jakarta.servlet.jsp.jstl.version>
+    <java-time-jsptags-jakarta.version>2.0.2</java-time-jsptags-jakarta.version>
+
+  </properties>
+
+  <!-- 
+    스프링 시큐리티 관련해서는...
+    스냅샷 버전 써야할 때도 있어서, 추가해둔다. 
+  -->
+  <repositories>
+    <repository>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-bom</artifactId>
+        <version>${log4j2.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+        <version>${hikaricp.version}</version>
+        <exclusions>
+          <exclusion>
+            <!-- slf4j-api 2.0.0-alpha1 버전을 가져오는데... -->
+            <!-- 2.0.0 정식 버전을 끌고오게 되더라도 모듈을 불러오는 모습을 보인다. -->
+            <!-- HikariCP의 slf4j-api 디펜던시는 제외시켰다. -->
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <profiles>
+    <!-- Tomcat 기본 웹 애플리케이션 실행  -->
+    <profile>
+      <id>tomcat-run</id>
+      <properties>
+        <jstl-scope.type>compile</jstl-scope.type>
+      </properties>
+      <build>
+        <plugins>
+          <!-- 실제 Tomcat 배포 실행 테스트 -->
+          <!-- mvn clean package -Ptomcat-run -DskipTests cargo:run -->
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven3-plugin</artifactId>
+            <version>${cargo.version}</version>
+            <configuration>
+              <container>
+                <containerId>${cargo-tomcat.containerId}</containerId>
+                <systemProperties>
+                  <file.encoding>UTF-8</file.encoding>
+                </systemProperties>
+                <zipUrlInstaller>
+                  <url>
+                    https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/${cargo-tomcat.version}/tomcat-${cargo-tomcat.version}.zip
+                  </url>
+                  <downloadDir>${project.build.directory}/downloads</downloadDir>
+                  <extractDir>${project.build.directory}/extracts</extractDir>
+                </zipUrlInstaller>
+              </container>
+              <configuration>
+                <type>standalone</type>
+                <properties>
+                  <cargo.jvmargs><!-- 
+                  -->--add-opens=java.base/java.io=ALL-UNNAMED <!--
+                  -->--add-opens=java.base/java.lang=ALL-UNNAMED <!--
+                  -->--add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED <!--
+                  --></cargo.jvmargs>
+                  <cargo.servlet.port>${cargo-server-port}</cargo.servlet.port>
+                  <!-- Ctrl + C로 외부 Cargo 프로세스가 대기하지 않고 백그라운드 실행이 되야할 것 같은데,  원하는대로 안된다. ㅠㅠ -->
+                  <!-- https://codehaus-cargo.github.io/cargo/Container+Start.html -->
+                  <!-- <cargo.process.spawn>true</cargo.process.spawn> -->
+                </properties>
+              </configuration>
+              <deployables>
+                <deployable>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>${project.artifactId}</artifactId>
+                  <type>war</type>
+                  <properties>
+                    <context>${cargo-context-path}</context>
+                  </properties>
+                </deployable>
+              </deployables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!-- Tomcat - Scouter를 활성화하여 웹 애플리케이션 실행 -->
+    <profile>
+      <id>tomcat-run-with-scouter</id>
+      <properties>
+        <jstl-scope.type>compile</jstl-scope.type>
+      </properties>
+      <build>
+        <plugins>
+          <!-- 실제 Tomcat  배포 실행 테스트 -->
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven3-plugin</artifactId>
+            <version>${cargo.version}</version>
+            <configuration>
+              <container>
+                <containerId>${cargo-tomcat.containerId}</containerId>
+                <systemProperties>
+                  <file.encoding>UTF-8</file.encoding>
+                  <scouter.config>${project.basedir}/../../${scouter.config.file}</scouter.config>
+                </systemProperties>
+                <zipUrlInstaller>
+                  <url>
+                    https://repo.maven.apache.org/maven2/org/apache/tomcat/tomcat/${cargo-tomcat.version}/tomcat-${cargo-tomcat.version}.zip
+                  </url>
+                  <downloadDir>${project.build.directory}/downloads</downloadDir>
+                  <extractDir>${project.build.directory}/extracts</extractDir>
+                </zipUrlInstaller>
+              </container>
+              <configuration>
+                <type>standalone</type>
+                <properties>
+                  <cargo.jvmargs><!-- 
+                  -->-javaagent:${scouter.agent.lib} <!--
+                  -->--add-opens=java.base/java.io=ALL-UNNAMED <!--
+                  -->--add-opens=java.base/java.lang=ALL-UNNAMED <!--
+                  -->--add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED <!--
+                  -->-Djdk.attach.allowAttachSelf=true <!--
+                  --></cargo.jvmargs>
+                  <cargo.servlet.port>${cargo-server-port}</cargo.servlet.port>
+                </properties>
+              </configuration>
+              <deployables>
+                <deployable>
+                  <groupId>${project.groupId}</groupId>
+                  <artifactId>${project.artifactId}</artifactId>
+                  <type>war</type>
+                  <properties>
+                    <context>${cargo-context-path}</context>
+                  </properties>
+                </deployable>
+              </deployables>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven-clean-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>${maven-war-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <compilerArgs>
+            <arg>-Xlint:all</arg>
+            <arg>-Xlint:-processing</arg> <!-- No processor claimed any of these annotations 경고는 노출되지않게 설정 -->
+            <arg>-Xlint:-path</arg> <!-- bad path element 경고 무시 -->
+          </compilerArgs>
+          <showWarnings>true</showWarnings>
+          <showDeprecation>true</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-toolchains-plugin</artifactId>
+        <version>${maven-toolchains-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>toolchain</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <toolchains>
+            <jdk>
+              <version>${java.version}</version>
+            </jdk>
+          </toolchains>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
