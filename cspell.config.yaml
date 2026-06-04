@@ -1,6 +1,9 @@
 version: "0.2"
 ignorePaths:
   - .gitignore
+  - pnpm-lock.yaml
+  - mvnw
+  - mvnw.cmd
 dictionaryDefinitions: []
 dictionaries: []
 words:
@@ -37,6 +40,7 @@ words:
   - TABLESPACE
   - temurin
   - Thumbnailator
+  - typehandler
   - updatedate
   - uploadpath
   - usebackq

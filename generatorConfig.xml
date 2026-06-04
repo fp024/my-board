@@ -51,7 +51,7 @@
            mapperName="BoardMapper">
 
       <!-- 키생성 컬럼과 쿼리를 정의한다. -->
-      <!-- 시퀀스를 호출해서 값을 넣기 때문에, identity를 false로 둔다. MySQL AutoIncreatement였다면 true로 두고, sqlStatemen="MySql" 로 설정할 필요가 있다. -->
+      <!-- 시퀀스를 호출해서 값을 넣기 때문에, identity를 false로 둔다. MySQL AutoIncrement였다면 true로 두고, sqlStatement="MySql" 로 설정할 필요가 있다. -->
       <generatedKey column="bno" identity="false"
                     sqlStatement="SELECT seq_board.nextval FROM DUAL"/>
 
@@ -72,7 +72,7 @@
     <table tableName="tbl_reply" domainObjectName="ReplyVO"
            mapperName="ReplyMapper">
       <!-- 키생성 컬럼과 쿼리를 정의한다. -->
-      <!-- 시퀀스를 호출해서 값을 넣기 때문에, identity를 false로 둔다. MySQL AutoIncreatement였다면 true로 두고, sqlStatemen="MySql" 로 설정할 필요가 있다. -->
+      <!-- 시퀀스를 호출해서 값을 넣기 때문에, identity를 false로 둔다. MySQL AutoIncrement였다면 true로 두고, sqlStatement="MySql" 로 설정할 필요가 있다. -->
       <generatedKey column="rno" identity="false"
                     sqlStatement="SELECT seq_reply.nextval FROM DUAL"/>
 

@@ -4,10 +4,10 @@
     "editor.formatOnSave": true
   },
   "[xml]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   "[html]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": false
   },
   "[css]": {
     "editor.formatOnSave": true
