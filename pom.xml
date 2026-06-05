@@ -17,7 +17,6 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
     <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
-    <jakarta.servlet.jsp.jstl-api.version>3.0.2</jakarta.servlet.jsp.jstl-api.version>
     <jakarta.servlet.jsp.jstl.version>3.0.1</jakarta.servlet.jsp.jstl.version>
     <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
     <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
@@ -353,13 +352,6 @@
     </dependency>
 
     <dependency>
-      <groupId>jakarta.servlet.jsp.jstl</groupId>
-      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
-      <version>${jakarta.servlet.jsp.jstl-api.version}</version>
-      <scope>${jstl-scope.type}</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.glassfish.web</groupId>
       <artifactId>jakarta.servlet.jsp.jstl</artifactId>
       <version>${jakarta.servlet.jsp.jstl.version}</version>
@@ -492,6 +484,12 @@
       <artifactId>assertj-core</artifactId>
       <version>${assertj.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>net.bytebuddy</groupId>
+          <artifactId>byte-buddy</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
   </dependencies>
