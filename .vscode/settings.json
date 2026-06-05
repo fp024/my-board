@@ -1,5 +1,16 @@
 {
   "java.autobuild.enabled": true,
+  "maven.terminal.favorites": [
+    {
+      "command": "clean test"
+    },
+    {
+      "command": "-DskipTests clean package"
+    },
+    {
+      "command": "-DskipTests clean prepare-package war:exploded"
+    },
+  ],
   "[java]": {
     "editor.formatOnSave": true
   },

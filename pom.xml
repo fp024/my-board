@@ -16,52 +16,51 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
-    <org.aspectj-version>1.9.25.1</org.aspectj-version>
-
-    <quartz.version>2.5.2</quartz.version>
-    <gson.version>2.14.0</gson.version>
-
-    <log4j2.version>2.26.0</log4j2.version>
-
-    <lombok.version>1.18.46</lombok.version>
-
-    <mybatis.version>3.5.19</mybatis.version>
-    <mybatis.dynamic.sql.version>2.0.0</mybatis.dynamic.sql.version>
-
-    <hikaricp.version>7.0.2</hikaricp.version>
-
-    <ojdbc17.version>23.26.1.0.0</ojdbc17.version>
-
-    <hsqldb.version>2.7.4</hsqldb.version>
-
-    <thumbnailator.version>0.4.21</thumbnailator.version>
-
-    <junit.version>6.1.0</junit.version>
-
-    <json-path.version>3.0.0</json-path.version>
-
-    <mockito.version>5.23.0</mockito.version>
-
-    <hamcrest.version>3.0</hamcrest.version>
-
-    <assertj.version>3.27.7</assertj.version>
-
-    <commons-fileupload.version>1.6.0</commons-fileupload.version>
-
     <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
     <jakarta.servlet.jsp.jstl-api.version>3.0.2</jakarta.servlet.jsp.jstl-api.version>
     <jakarta.servlet.jsp.jstl.version>3.0.1</jakarta.servlet.jsp.jstl.version>
     <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
     <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
+    <java-time-jsptags.version>2.0.2</java-time-jsptags.version>
 
+    <lombok.version>1.18.46</lombok.version>
     <org.springframework-version>7.0.7</org.springframework-version>
     <spring-security.version>7.0.5</spring-security.version>
 
+
     <mybatis.spring.version>4.0.0</mybatis.spring.version>
+    <mybatis.version>3.5.19</mybatis.version>
+    <mybatis.dynamic.sql.version>2.0.0</mybatis.dynamic.sql.version>
 
-    <java-time-jsptags.version>2.0.2</java-time-jsptags.version>
+    <hikaricp.version>7.0.2</hikaricp.version>
+    <ojdbc17.version>23.26.1.0.0</ojdbc17.version>
+    <hsqldb.version>2.7.4</hsqldb.version>
 
-    <!-- Jetty Maven 플러그인 설정 -->
+    <log4j2.version>2.26.0</log4j2.version>
+    <org.aspectj-version>1.9.25.1</org.aspectj-version>
+    <quartz.version>2.5.2</quartz.version>
+    <gson.version>2.14.0</gson.version>
+    <thumbnailator.version>0.4.21</thumbnailator.version>
+
+
+    <junit.version>6.1.0</junit.version>
+    <mockito.version>5.23.0</mockito.version>
+    <hamcrest.version>3.0</hamcrest.version>
+    <assertj.version>3.27.7</assertj.version>
+    <json-path.version>3.0.0</json-path.version>
+
+    <!-- Maven 플러그인 버전 관리 -->
+    <mybatis-generator-maven-plugin.version>2.0.0</mybatis-generator-maven-plugin.version>
+    <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
+    <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
+    <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
+    <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+    <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
+    <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+    <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
+
+
+    <!-- ### Jetty Maven 플러그인 설정 ### -->
     <jetty.version>12.1.10</jetty.version>
     <!-- Jetty Http 포트 기본값 -->
     <jetty.port>8080</jetty.port>
@@ -71,22 +70,13 @@
     <jetty-auto-deploy-seconds>-1</jetty-auto-deploy-seconds>
 
 
+    <!-- ### Cargo Maven 플러그인 설정 ### -->
     <!-- Tomcat 11.0.x는 Servlet 6.1을 정식 지원함. -->
     <cargo.version>1.10.27</cargo.version>
     <cargo-tomcat.containerId>tomcat11x</cargo-tomcat.containerId>
     <cargo-tomcat.version>11.0.22</cargo-tomcat.version>
     <cargo-context-path>${jetty-context-path}</cargo-context-path>
     <cargo-server-port>${jetty.port}</cargo-server-port>
-
-
-    <!-- Maven 플러그인 버전 관리 -->
-    <mybatis-generator-maven-plugin.version>2.0.0</mybatis-generator-maven-plugin.version>
-    <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
-    <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
-    <maven-surefire-plugin.version>3.5.5</maven-surefire-plugin.version>
-    <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
-    <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
-    <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
 
     <!-- WAS에 따라서 JSTL이 포함되어있는 경우가 있음 (예: Jetty), 기본은 포함되지 않은 것으로 설정 -->
     <jstl-scope.type>compile</jstl-scope.type>
@@ -517,6 +507,10 @@
           <version>${maven-compiler-plugin.version}</version>
         </plugin>
         <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven-dependency-plugin.version}</version>
+        </plugin>
+        <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>${maven-resources-plugin.version}</version>
         </plugin>
@@ -531,6 +525,24 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <artifactId>maven-toolchains-plugin</artifactId>
+        <version>${maven-toolchains-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>toolchain</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <toolchains>
+            <jdk>
+              <version>${java.version}</version>
+            </jdk>
+          </toolchains>
+        </configuration>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
