@@ -18,6 +18,7 @@ words:
   - healthcheck
   - hikari
   - initdb
+  - jayway
   - Jstl
   - NEXTVAL
   - NOCACHE

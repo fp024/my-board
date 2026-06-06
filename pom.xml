@@ -227,6 +227,7 @@
       <build>
         <plugins>
           <!-- Jetty 서버 구동 -->
+          <!-- cspell:disable-next-line -->
           <!-- 도움말 자세히보기: mvnw jetty:help -Ddetail=true -Dgoal=run -->
           <plugin>
             <!--
