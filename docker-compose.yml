@@ -36,7 +36,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./target/my-board-1.0.0-BUILD-SNAPSHOT.war:/usr/local/tomcat/webapps/ROOT.war:ro
+      - ./target/my-board-1.0.0-SNAPSHOT.war:/usr/local/tomcat/webapps/ROOT.war:ro
       - ./docker/web-upload:/upload
 
 volumes:

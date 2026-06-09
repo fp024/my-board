@@ -17,6 +17,7 @@
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
     <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
+    <jakarta.servlet.jsp.jstl-api.version>3.0.2</jakarta.servlet.jsp.jstl-api.version>
     <jakarta.servlet.jsp.jstl.version>3.0.1</jakarta.servlet.jsp.jstl.version>
     <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
     <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
@@ -77,7 +78,10 @@
     <cargo-context-path>${jetty-context-path}</cargo-context-path>
     <cargo-server-port>${jetty.port}</cargo-server-port>
 
-    <!-- WAS에 따라서 JSTL이 포함되어있는 경우가 있음 (예: Jetty), 기본은 포함되지 않은 것으로 설정 -->
+    <!-- 
+     WAS에 따라서 JSTL이 포함되어있는 경우가 있음 (예: Jetty), 
+     기본값은 JSTL이 포함되지 않은 WAS라 간주하고 scope 타입을 compile로 설정
+    -->
     <jstl-scope.type>compile</jstl-scope.type>
   </properties>
 
@@ -350,6 +354,13 @@
       <artifactId>jakarta.servlet-api</artifactId>
       <version>${jakarta.servlet-api.version}</version>
       <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>jakarta.servlet.jsp.jstl</groupId>
+      <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+      <version>${jakarta.servlet.jsp.jstl-api.version}</version>
+      <scope>${jstl-scope.type}</scope>
     </dependency>
 
     <dependency>

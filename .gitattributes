@@ -8,3 +8,5 @@ mvnw text eol=lf
 
 gradlew text eol=lf
 package.json text eol=lf
+
+/docker/sql-scripts/*.sql text eol=lf
