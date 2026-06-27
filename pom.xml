@@ -24,7 +24,7 @@
     <java-time-jsptags.version>2.0.2</java-time-jsptags.version>
 
     <lombok.version>1.18.46</lombok.version>
-    
+
     <spring.version>7.0.8</spring.version>
     <spring-security.version>7.1.0</spring-security.version>
 
@@ -84,6 +84,8 @@
      기본값은 JSTL이 WAS에 포함되지 않은 경우로 간주하고 scope 타입을 compile로 설정
     -->
     <jstl-scope-type>compile</jstl-scope-type>
+    <!-- 💡 이 프로젝트는 web.xml을 사용하지 않으므로, 빈값으로 둔다. -->
+    <web-xml-location></web-xml-location>
   </properties>
 
   <dependencyManagement>
@@ -118,8 +120,6 @@
       </activation>
       <properties>
         <env>win</env>
-        <!-- 💡 이 프로젝트는 web.xml을 사용하지 않으므로, 빈값으로 둔다. -->
-        <web-xml-location></web-xml-location>
       </properties>
     </profile>
 
@@ -127,13 +127,11 @@
       <id>linux</id>
       <activation>
         <os>
-          <family>linux</family>
+          <family>!windows</family>
         </os>
       </activation>
       <properties>
         <env>linux</env>
-        <!-- 💡 이 프로젝트는 web.xml을 사용하지 않으므로, 빈값으로 둔다. -->
-        <web-xml-location></web-xml-location>
       </properties>
 
       <build>
@@ -227,7 +225,7 @@
       </activation>
       -->
       <properties>
-        <jstl-scope.type>provided</jstl-scope.type>
+        <jstl-scope-type>provided</jstl-scope-type>
       </properties>
       <build>
         <plugins>
