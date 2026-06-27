@@ -39,8 +39,8 @@ public class CustomEnumTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E>
 
   /** CodeOperation 을 구현한 Enum이면 code()값을 반환 그렇지 않으면 name() 값을 반환<br> */
   private String getSaveData(E parameter) {
-    if (parameter instanceof CodeOperation) {
-      return ((CodeOperation) parameter).getCode();
+    if (parameter instanceof CodeOperation codeOperation) {
+      return codeOperation.getCode();
     } else {
       return parameter.name();
     }

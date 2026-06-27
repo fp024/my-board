@@ -1,6 +1,8 @@
 package org.fp024.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /** Enum이름 그대로 DB에 저장하기 때문에, CodeOperation을 구현하진 않았다. */
 public enum MemberAuthType {
@@ -14,6 +16,7 @@ public enum MemberAuthType {
     private static final String ADMIN = "ADMIN";
   }
 
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
   public static final class RoleNames {
     private static final String PREFIX = "ROLE_";
     public static final String ROLE_USER = PREFIX + Groups.USER;
@@ -22,8 +25,7 @@ public enum MemberAuthType {
   }
 
   /** 권한 그룹 이름 */
-  @Getter
-  private final String groupName;
+  @Getter private final String groupName;
 
   /** 권한 전체 이름 */
   @Getter private final String roleName;

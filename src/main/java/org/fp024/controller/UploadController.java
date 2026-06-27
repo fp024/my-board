@@ -40,15 +40,15 @@ public class UploadController {
 
   @GetMapping("/uploadForm")
   public void uploadForm() {
-    LOGGER.info("Upload Folder: {}", UPLOAD_FOLDER);
-    LOGGER.info("upload form");
+    log.info("Upload Folder: {}", UPLOAD_FOLDER);
+    log.info("upload form");
   }
 
   @PostMapping("/uploadFormAction")
   public void uploadFormPost(MultipartFile[] uploadFile) {
     // 폴더 만들기
     final File uploadPath = new File(UPLOAD_FOLDER, CommonUtil.getFolder());
-    LOGGER.info("upload path: {}", uploadPath);
+    log.info("upload path: {}", uploadPath);
 
     if (!uploadPath.exists()) {
       uploadPath.mkdirs();
@@ -56,18 +56,18 @@ public class UploadController {
     // yyyy/MM/dd 폴더 만듬.
 
     for (MultipartFile multipartFile : uploadFile) {
-      LOGGER.info("------------------------------------");
-      LOGGER.info("Upload File Name: {}", multipartFile.getOriginalFilename());
-      LOGGER.info("Upload File Size: {}", multipartFile.getSize());
+      log.info("------------------------------------");
+      log.info("Upload File Name: {}", multipartFile.getOriginalFilename());
+      log.info("Upload File Size: {}", multipartFile.getSize());
 
       String uploadFileName = multipartFile.getOriginalFilename();
 
       // IE 는 파일 경로를 가짐.
       uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf(File.separator) + 1);
-      LOGGER.info("경로를 제외한 파일명: {}", uploadFileName);
+      log.info("경로를 제외한 파일명: {}", uploadFileName);
 
       String uuidFileName = CommonUtil.getUUID() + "_" + uploadFileName;
-      LOGGER.info("UUID가 붙은 파일명: {}", uuidFileName);
+      log.info("UUID가 붙은 파일명: {}", uuidFileName);
 
       File saveTempFile = new File(uploadPath, "tmp_" + uuidFileName);
       File renamedFile = new File(uploadPath, uuidFileName);
@@ -95,28 +95,28 @@ public class UploadController {
           makeThumbnail(renamedFile);
         }
       } catch (Exception e) {
-        LOGGER.error(e.getMessage(), e);
+        log.error(e.getMessage(), e);
       }
     }
   }
 
   @GetMapping("/uploadAjax")
   public void uploadAjax() {
-    LOGGER.info("upload ajax");
+    log.info("upload ajax");
   }
 
   @PreAuthorize("isAuthenticated()")
   @PostMapping("/uploadAjaxAction")
   @ResponseBody
   public ResponseEntity<List<AttachFileDTO>> uploadAjaxPost(MultipartFile[] uploadFile) {
-    LOGGER.info("update ajax post........");
+    log.info("update ajax post........");
 
     List<AttachFileDTO> list = new ArrayList<>();
 
     // 폴더 만들기
     final String uploadFolderPath = CommonUtil.getFolder();
     final File uploadPath = new File(UPLOAD_FOLDER, uploadFolderPath);
-    LOGGER.info("upload path: {}", uploadPath);
+    log.info("upload path: {}", uploadPath);
 
     if (!uploadPath.exists()) {
       uploadPath.mkdirs();
@@ -127,21 +127,21 @@ public class UploadController {
 
       AttachFileDTO attachDTO = new AttachFileDTO();
 
-      LOGGER.info("------------------------------------");
-      LOGGER.info("Upload File Name: {}", multipartFile.getOriginalFilename());
-      LOGGER.info("Upload File Size: {}", multipartFile.getSize());
+      log.info("------------------------------------");
+      log.info("Upload File Name: {}", multipartFile.getOriginalFilename());
+      log.info("Upload File Size: {}", multipartFile.getSize());
 
       final String originalFilename = multipartFile.getOriginalFilename();
 
       // IE 는 파일 경로를 가짐.
       final String uploadFileName =
           originalFilename.substring(originalFilename.lastIndexOf(File.separator) + 1);
-      LOGGER.info("경로를 제외한 파일명: {}", uploadFileName);
+      log.info("경로를 제외한 파일명: {}", uploadFileName);
 
       final String uuid = CommonUtil.getUUID();
 
       String uuidFileName = uuid + "_" + uploadFileName;
-      LOGGER.info("UUID가 붙은 파일명: {}", uuidFileName);
+      log.info("UUID가 붙은 파일명: {}", uuidFileName);
 
       File saveTempFile = new File(uploadPath, "tmp_" + uuidFileName);
       File renamedFile = new File(uploadPath, uuidFileName);
@@ -169,7 +169,7 @@ public class UploadController {
         }
         attachDTO.setSuccess(true);
       } catch (Exception e) {
-        LOGGER.error(e.getMessage(), e);
+        log.error(e.getMessage(), e);
         return new ResponseEntity<>(list, HttpStatus.INTERNAL_SERVER_ERROR);
       } finally {
         list.add(attachDTO);
@@ -186,21 +186,21 @@ public class UploadController {
    */
   @GetMapping("/display")
   public ResponseEntity<byte[]> getFile(String fileName) {
-    LOGGER.info("fileName: {}", fileName);
+    log.info("fileName: {}", fileName);
 
     File file = new File(UPLOAD_FOLDER + File.separator + fileName);
 
-    LOGGER.info("file: {}", file);
+    log.info("file: {}", file);
 
     try {
       HttpHeaders header = new HttpHeaders();
       String contentType =
           Files.probeContentType(file.toPath()); // 파일이 실제로 없어도 그냥 확장자 보고 컨텐트 타입을 판단하는 것 같다.
-      LOGGER.info("### Content-Type: {} ###", contentType);
+      log.info("### Content-Type: {} ###", contentType);
       header.add("Content-Type", contentType);
       return new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
     } catch (IOException e) {
-      LOGGER.error(e.getMessage(), e);
+      log.error(e.getMessage(), e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -230,11 +230,11 @@ public class UploadController {
   @ResponseBody
   public ResponseEntity<Resource> downloadFile(
       @RequestHeader("User-Agent") String userAgent, String fileName) {
-    LOGGER.info("download file: {}", fileName);
+    log.info("download file: {}", fileName);
 
     Resource resource = new FileSystemResource(UPLOAD_FOLDER + File.separator + fileName);
 
-    LOGGER.info("resource: {}, resource filename: {}", resource, resource.getFilename());
+    log.info("resource: {}, resource filename: {}", resource, resource.getFilename());
 
     if (!resource.exists()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -247,7 +247,7 @@ public class UploadController {
           "attachment; filename=" + downloadFileName(userAgent, resource.getFilename()));
       return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     } catch (UnsupportedEncodingException e) {
-      LOGGER.error(e.getMessage(), e);
+      log.error(e.getMessage(), e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
@@ -263,21 +263,21 @@ public class UploadController {
       throws UnsupportedEncodingException {
     final String downloadName;
     if (userAgent.contains("Trident")) {
-      LOGGER.info("IE 브라우저");
+      log.info("IE 브라우저");
       downloadName = URLEncoder.encode(resourceName, StandardCharsets.UTF_8).replace("\\+", " ");
     } else if (userAgent.contains("Edge")) {
       // 최신 edge는 UserAgent가 변경되었다.
-      LOGGER.info("레거시 Edge 브라우저");
+      log.info("레거시 Edge 브라우저");
       downloadName = URLEncoder.encode(resourceName, StandardCharsets.UTF_8);
     } else {
-      LOGGER.info("크롬 브라우저");
+      log.info("크롬 브라우저");
       downloadName =
           new String(resourceName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
     }
 
-    LOGGER.info("다운로드 파일명: {}", downloadName);
+    log.info("다운로드 파일명: {}", downloadName);
     String resourceOriginalName = downloadName.substring(downloadName.indexOf('_') + 1);
-    LOGGER.info("UUID가 제거된 다운로드 파일명: {}", resourceOriginalName);
+    log.info("UUID가 제거된 다운로드 파일명: {}", resourceOriginalName);
     return resourceOriginalName;
   }
 
@@ -292,7 +292,7 @@ public class UploadController {
   @PostMapping("/deleteFile")
   @ResponseBody
   public ResponseEntity<String> deleteFile(String fileName, FileType type) {
-    LOGGER.info("deleteFile: {}", fileName);
+    log.info("deleteFile: {}", fileName);
 
     File file =
         new File(
@@ -300,7 +300,7 @@ public class UploadController {
 
     if (type == FileType.IMAGE) {
       String largeFileName = file.getAbsolutePath().replace("s_", "");
-      LOGGER.info("largeFileName: {}", largeFileName);
+      log.info("largeFileName: {}", largeFileName);
       File largeFile = new File(largeFileName);
       largeFile.delete();
     }

@@ -15,6 +15,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isLessThanOrEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.select;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ class BoardServiceTest {
   @Test
   void testExist() {
     assertNotNull(service);
-    LOGGER.info(service.toString());
+    log.info(service.toString());
   }
 
   @Test
@@ -61,7 +62,7 @@ class BoardServiceTest {
 
     service.register(boardDTO);
 
-    LOGGER.info("생성된 게시물 번호: {}", board.getBno());
+    log.info("생성된 게시물 번호: {}", board.getBno());
   }
 
   // 쿼리에 INDEX 힌트가 있어서 한줄 주석을 사용했다.
@@ -78,18 +79,18 @@ class BoardServiceTest {
     Criteria criteria = new Criteria(1, PageSize.SIZE_10);
     criteria.setSearchCodes(Arrays.asList("T", "C", "W"));
     criteria.setKeyword("newbie");
-    service.getList(criteria).forEach(board -> LOGGER.info(board.toString()));
+    service.getList(criteria).forEach(board -> log.info(board.toString()));
   }
 
   @Test
   void testGet() {
-    LOGGER.info("{}", service.get(1L));
+    log.info("{}", service.get(1L));
   }
 
   @Test
   void testDelete() {
     // 게시물 존재 여부에 따라 결과가 달라짐
-    LOGGER.info("REMOVE RESULT: {}", service.remove(122L));
+    log.info("REMOVE RESULT: {}", service.remove(122L));
   }
 
   @Test
@@ -99,12 +100,12 @@ class BoardServiceTest {
     if (board == null) {
       return;
     }
-    board.setTitle("제목 수정합니다. - " + LocalDateTime.now().getSecond());
+    board.setTitle("제목 수정합니다. - " + LocalDateTime.now(ZoneId.systemDefault()).getSecond());
 
     BoardDTO boardDTO = new BoardDTO();
     boardDTO.setBoardVO(board);
 
-    LOGGER.info("MODIFY RESULT: {}", service.modify(boardDTO));
+    log.info("MODIFY RESULT: {}", service.modify(boardDTO));
   }
 
   /*

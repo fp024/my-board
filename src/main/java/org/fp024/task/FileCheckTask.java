@@ -6,9 +6,12 @@ import static org.fp024.util.CommonUtil.unixPathToCurrentSystemPath;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -46,10 +49,11 @@ public class FileCheckTask {
 
   @Scheduled(cron = "0 0 2 * * *")
   public void checkFiles() {
-    LOGGER.warn("File Check Task run..........");
-    LOGGER.warn(
+    log.warn("File Check Task run..........");
+    log.warn(
         "현재 시간: {}",
-        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        LocalDateTime.now(ZoneId.systemDefault())
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
     // DB의 전일 첨부파일 등록 목록
     List<BoardAttachVO> fileList = getOldFiles();
@@ -77,7 +81,7 @@ public class FileCheckTask {
                     "s_" + vo.getUuid() + "_" + vo.getFileName()))
         .forEach(fileListPaths::add);
 
-    LOGGER.warn("==================================");
+    log.warn("==================================");
 
     // 어제 디렉토리
     File targetDir = Paths.get(uploadFolder, getFolderYesterday()).toFile();
@@ -89,12 +93,13 @@ public class FileCheckTask {
       return;
     }
 
-    LOGGER.warn("----------------------------------");
+    log.warn("----------------------------------");
     for (File file : removeFiles) {
-      if (file.delete()) {
-        LOGGER.warn("삭제 성공 파일: {}", file.getAbsolutePath());
-      } else {
-        LOGGER.error("삭제 실패 파일: {}", file.getAbsolutePath());
+      try {
+        Files.delete(file.toPath());
+        log.warn("삭제 성공 파일: {}", file.getAbsolutePath());
+      } catch (IOException e) {
+        log.error("삭제 실패 파일: {}", file.getAbsolutePath(), e);
       }
     }
   }

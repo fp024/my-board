@@ -2,14 +2,16 @@ package org.fp024.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 /**
  * Gson도 ObjectMapper처럼 싱글톤으로 써보자!<br>
  * Gson instances are Thread-safe so you can reuse them freely across multiple threads.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GsonHelper {
   public static Gson gson() {
     return GsonHolder.INSTANCE;

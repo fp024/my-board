@@ -15,6 +15,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isLessThanOrEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.select;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,8 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * <p>DELETE: <a href="https://mybatis.org/mybatis-dynamic-sql/docs/delete.html">DELETE</a>
  *
- * <p>예제:<a href="https://github.com/mybatis/mybatis-dynamic-sql/tree/master/src/test/java/examples">예제</a>
+ * <p>예제:<a
+ * href="https://github.com/mybatis/mybatis-dynamic-sql/tree/master/src/test/java/examples">예제</a>
  *
  * <p>SqlBuilder 클래스는 import static 해주는게 낫겠다. 이래야 보기가 편함.
  *
@@ -65,7 +67,7 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public void register(BoardDTO boardDTO) {
-    LOGGER.info("register..... {}", boardDTO);
+    log.info("register..... {}", boardDTO);
     BoardVO board = boardDTO.getBoardVO();
     // insertSelectKey와 insert를 따로 분리해서 만들지 않았다, 항상 Key 프로퍼티를 설정해서 반환한다.
     // 바로 모델을 insert를 하면 board 모델의 등록/수정일시가 null일 경우 null로 업데이트를 할 수 있으므로 명시적으로 정해준다.
@@ -110,14 +112,14 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public BoardVO get(Long bno) {
-    LOGGER.info("get..... {}", bno);
+    log.info("get..... {}", bno);
     return mapper.selectByPrimaryKey(bno).orElse(null);
   }
 
   @Transactional
   @Override
   public boolean modify(BoardDTO boardDTO) {
-    LOGGER.info("modify..... {}", boardDTO);
+    log.info("modify..... {}", boardDTO);
     BoardVO board = boardDTO.getBoardVO();
 
     attachMapper.delete(
@@ -131,7 +133,7 @@ public class BoardServiceImpl implements BoardService {
                         .set(BoardVODynamicSqlSupport.content)
                         .equalTo(board.getContent())
                         .set(BoardVODynamicSqlSupport.updateDate)
-                        .equalTo(LocalDateTime.now())
+                        .equalTo(LocalDateTime.now(ZoneId.systemDefault()))
                         .where(BoardVODynamicSqlSupport.bno, isEqualTo(board.getBno())))
             == 1;
 
@@ -152,7 +154,7 @@ public class BoardServiceImpl implements BoardService {
   @Transactional
   @Override
   public boolean remove(Long bno) {
-    LOGGER.info("remove..... {}", bno);
+    log.info("remove..... {}", bno);
     attachMapper.delete(c -> c.where(BoardAttachVODynamicSqlSupport.bno, isEqualTo(bno)));
     return mapper.deleteByPrimaryKey(bno) == 1;
   }
@@ -165,7 +167,7 @@ public class BoardServiceImpl implements BoardService {
    */
   @Override
   public List<BoardVO> getList(Criteria criteria) {
-    LOGGER.info("get List with criteria: {}", criteria);
+    log.info("get List with criteria: {}", criteria);
     DerivedColumn<Long> rownum = DerivedColumn.of("ROWNUM");
     DerivedColumn<Long> rn = rownum.as("rn");
 
@@ -183,9 +185,7 @@ public class BoardServiceImpl implements BoardService {
     return mapper.selectMany(
         select(BoardMapper.selectList)
             .from(select)
-            .where(
-                rn,
-                isGreaterThan((criteria.getPageNum() - 1) * criteria.getAmount()))
+            .where(rn, isGreaterThan((criteria.getPageNum() - 1) * criteria.getAmount()))
             .orderBy(bno.descending())
             .build()
             .render(RenderingStrategies.MYBATIS3));
@@ -219,7 +219,7 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public List<BoardAttachVO> getAttachList(Long bno) {
-    LOGGER.info("get Attach list by bno {}", bno);
+    log.info("get Attach list by bno {}", bno);
     return attachMapper.select(c -> c.where(BoardAttachVODynamicSqlSupport.bno, isEqualTo(bno)));
   }
 }

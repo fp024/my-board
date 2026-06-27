@@ -43,7 +43,7 @@ public class BoardController {
 
   @GetMapping("/list")
   public String list(Criteria criteria, Model model) {
-    LOGGER.info("list");
+    log.info("list");
     List<BoardVO> pagedList = service.getList(criteria);
 
     // 드문 상황이지만, 한 페이지에서 한 게시물만 삭제된 상태에서, 그 페이지에 그대로 남는 문제가 있어서,
@@ -56,7 +56,7 @@ public class BoardController {
 
     model.addAttribute("list", pagedList);
     PageDTO pageDTO = new PageDTO(criteria, service.getTotal(criteria));
-    LOGGER.info("criteria: {}, pageDTO: {}", criteria, pageDTO);
+    log.info("criteria: {}, pageDTO: {}", criteria, pageDTO);
     model.addAttribute("pageMaker", pageDTO);
     model.addAttribute("allSearchTypeSet", SearchType.allSearchTypeSet());
 
@@ -70,13 +70,13 @@ public class BoardController {
   @PostMapping("/register")
   @PreAuthorize("isAuthenticated()")
   public String register(BoardDTO boardDTO, RedirectAttributes rttr) {
-    LOGGER.info("====================================");
-    LOGGER.info("register: {}", boardDTO);
+    log.info("====================================");
+    log.info("register: {}", boardDTO);
 
     if (boardDTO.getAttachList() != null) {
-      boardDTO.getAttachList().forEach(attach -> LOGGER.info(attach.toString()));
+      boardDTO.getAttachList().forEach(attach -> log.info(attach.toString()));
     }
-    LOGGER.info("====================================");
+    log.info("====================================");
     service.register(boardDTO);
     rttr.addFlashAttribute("result", boardDTO.getBoardVO().getBno());
     // Spring MVC가 내부적으로 response.sendRedirect()처리를 함
@@ -86,7 +86,7 @@ public class BoardController {
   @GetMapping({"/get", "/modify"})
   public void get(
       @RequestParam("bno") Long bno, @ModelAttribute("criteria") Criteria criteria, Model model) {
-    LOGGER.info(".get");
+    log.info(".get");
     BoardVO boardVO = service.get(bno);
     model.addAttribute("board", boardVO);
     if (boardVO != null) {
@@ -99,7 +99,7 @@ public class BoardController {
   @PostMapping("/modify")
   public String modify(
       BoardDTO boardDTO, @ModelAttribute("criteria") Criteria criteria, RedirectAttributes rttr) {
-    LOGGER.info("modify: {}", boardDTO);
+    log.info("modify: {}", boardDTO);
 
     if (service.modify(boardDTO)) {
       rttr.addFlashAttribute("result", "success");
@@ -110,7 +110,7 @@ public class BoardController {
   @GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   public ResponseEntity<List<BoardAttachVO>> getAttachList(Long bno) {
-    LOGGER.info("getAttachList: {}", bno);
+    log.info("getAttachList: {}", bno);
     return new ResponseEntity<>(service.getAttachList(bno), HttpStatus.OK);
   }
 
@@ -121,7 +121,7 @@ public class BoardController {
       String writer,
       @ModelAttribute("criteria") Criteria criteria,
       RedirectAttributes rttr) {
-    LOGGER.info("remove... {}", bno);
+    log.info("remove... {}", bno);
 
     List<BoardAttachVO> attachList = service.getAttachList(bno);
 
@@ -138,8 +138,8 @@ public class BoardController {
       return;
     }
 
-    LOGGER.info("delete attach files..........");
-    LOGGER.info(attachList.toString());
+    log.info("delete attach files..........");
+    log.info(attachList.toString());
 
     attachList.forEach(
         attach -> {
@@ -170,7 +170,7 @@ public class BoardController {
               Files.delete(thumbnail);
             }
           } catch (IOException e) {
-            LOGGER.error("delete file error {}", e.getMessage(), e);
+            log.error("delete file error {}", e.getMessage(), e);
           }
         });
   }

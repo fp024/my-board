@@ -5,9 +5,12 @@ import static org.mockito.Mockito.mockStatic;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
@@ -16,11 +19,13 @@ class CommonUtilTest {
   @Test
   void testGetFolder() {
     // Mock 적용 외부에서 미리 기대 날짜를 만들기.
-    LocalDateTime currentDateTime = LocalDateTime.of(2022, 4, 20, 0, 0, 0, 0);
+    LocalDateTime currentDateTime = LocalDateTime.of(2022, Month.APRIL, 20, 0, 0, 0, 0);
 
     try (MockedStatic<LocalDateTime> mockedLocalDateTime =
         mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS)) {
-      mockedLocalDateTime.when(LocalDateTime::now).thenReturn(currentDateTime);
+      mockedLocalDateTime
+          .when(() -> LocalDateTime.now(ArgumentMatchers.any(ZoneId.class)))
+          .thenReturn(currentDateTime);
 
       assertEquals("2022" + File.separator + "04" + File.separator + "20", CommonUtil.getFolder());
     }
@@ -29,6 +34,6 @@ class CommonUtilTest {
   @Test
   void testGetUUID() {
     // IntelliJ에서 JUnit으로 실행할 때, ${project.basedir}/.mvn/jvm.config 의 설정을 사용하는 것 같지는 않다.
-    IntStream.rangeClosed(1, 10).forEach(i -> LOGGER.info("UUID: {}", CommonUtil.getUUID()));
+    IntStream.rangeClosed(1, 10).forEach(i -> log.info("UUID: {}", CommonUtil.getUUID()));
   }
 }

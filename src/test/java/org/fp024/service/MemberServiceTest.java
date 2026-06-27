@@ -22,6 +22,6 @@ class MemberServiceTest {
 
     assertTrue(member.isPresent());
 
-    LOGGER.info("{}", member.get());
+    log.info("{}", member.get());
   }
 }

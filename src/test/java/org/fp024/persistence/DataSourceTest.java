@@ -30,7 +30,7 @@ class DataSourceTest {
     // Oracle 9 이후로...
     // oracle.jdbc.driver.OracleDriver 대신에 oracle.jdbc.OracleDriver를 사용해야한다고 함.
     try (Connection con = dataSource.getConnection()) {
-      LOGGER.info("{}", con);
+      log.info("{}", con);
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -40,8 +40,8 @@ class DataSourceTest {
   void testMyBatis() {
     try (SqlSession session = sqlSessionFactory.openSession();
         Connection con = session.getConnection(); ) {
-      LOGGER.info("{}", session);
-      LOGGER.info("{}", con);
+      log.info("{}", session);
+      log.info("{}", con);
     } catch (Exception e) {
       fail(e.getMessage());
     }

@@ -36,10 +36,10 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
             ProjectDataUtil.getLongProperty("multipart.maxRequestSize"),
             ProjectDataUtil.getIntProperty("multipart.fileSizeThreshold"));
 
-    LOGGER.info("### multipart config의 location 값: {}", multipartConfig.getLocation());
-    LOGGER.info("### multipart config의 maxFileSize 값: {}", multipartConfig.getMaxFileSize());
-    LOGGER.info("### multipart config의 maxRequestSize 값: {}", multipartConfig.getMaxRequestSize());
-    LOGGER.info(
+    log.info("### multipart config의 location 값: {}", multipartConfig.getLocation());
+    log.info("### multipart config의 maxFileSize 값: {}", multipartConfig.getMaxFileSize());
+    log.info("### multipart config의 maxRequestSize 값: {}", multipartConfig.getMaxRequestSize());
+    log.info(
         "### multipart config의 fileSizeThreshold 값: {}", multipartConfig.getFileSizeThreshold());
     registration.setMultipartConfig(multipartConfig);
   }

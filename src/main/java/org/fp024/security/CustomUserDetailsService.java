@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
   @Override
   public @NonNull UserDetails loadUserByUsername(@NonNull String userName)
       throws UsernameNotFoundException {
-    LOGGER.warn("Load User by userName: {}", userName);
+    log.warn("Load User by userName: {}", userName);
     Optional<MemberDTO> optionalMember = memberService.read(userName);
     MemberDTO member =
         optionalMember.orElseThrow(() -> new UsernameNotFoundException("userName: " + userName));

@@ -14,6 +14,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isLessThanOrEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.select;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class ReplyServiceImpl implements ReplyService {
   @Transactional
   @Override
   public void register(ReplyVO vo) {
-    LOGGER.info("register.....{}", vo);
+    log.info("register.....{}", vo);
     // 테이블의 댓글 등록일시, 수정일시 기본 값이 SYSDATE 이다.
     vo.setReplyDate(null);
     vo.setUpdateDate(null);
@@ -52,26 +53,26 @@ public class ReplyServiceImpl implements ReplyService {
 
   @Override
   public ReplyVO get(Long rno) {
-    LOGGER.info("get.....{}", rno);
+    log.info("get.....{}", rno);
     return replyMapper.selectByPrimaryKey(rno).orElse(null);
   }
 
   @Override
   public int modify(ReplyVO vo) {
-    LOGGER.info("modify.....{}", vo);
+    log.info("modify.....{}", vo);
     return replyMapper.update(
         c ->
             c.set(reply)
                 .equalTo(vo.getReply())
                 .set(updateDate)
-                .equalTo(LocalDateTime.now())
+                .equalTo(LocalDateTime.now(ZoneId.systemDefault()))
                 .where(rno, isEqualTo(vo.getRno())));
   }
 
   @Transactional
   @Override
   public int remove(Long rno) {
-    LOGGER.info("remove.....{}", rno);
+    log.info("remove.....{}", rno);
 
     Optional<ReplyVO> optional = replyMapper.selectByPrimaryKey(rno);
 
@@ -86,7 +87,7 @@ public class ReplyServiceImpl implements ReplyService {
 
   @Override
   public ReplyPageDTO getListPage(Criteria cri, Long boardNo) {
-    LOGGER.info("get Reply List of a board {}", boardNo);
+    log.info("get Reply List of a board {}", boardNo);
 
     DerivedColumn<Long> rownum = DerivedColumn.of("ROWNUM");
     DerivedColumn<Long> rn = rownum.as("rn");
@@ -101,8 +102,7 @@ public class ReplyServiceImpl implements ReplyService {
                         .where(bno, isEqualTo(boardNo))
                         .and(rno, isGreaterThan(0L))
                         .and(rownum, isLessThanOrEqualTo(cri.getPageNum() * cri.getAmount())))
-                .where(
-                    rn, isGreaterThan((cri.getPageNum() - 1) * cri.getAmount()))
+                .where(rn, isGreaterThan((cri.getPageNum() - 1) * cri.getAmount()))
                 .orderBy(bno.descending())
                 .build()
                 .render(RenderingStrategies.MYBATIS3));

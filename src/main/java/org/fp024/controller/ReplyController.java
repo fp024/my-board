@@ -39,10 +39,10 @@ public class ReplyController {
       consumes = MediaType.APPLICATION_JSON_VALUE,
       produces = {MediaType.TEXT_PLAIN_VALUE})
   public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
-    LOGGER.info("ReplyVO: {}", vo);
+    log.info("ReplyVO: {}", vo);
     try {
       replyService.register(vo);
-      LOGGER.info("Reply INSERT Success");
+      log.info("Reply INSERT Success");
       return new ResponseEntity<>("Success", HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -59,9 +59,9 @@ public class ReplyController {
   @GetMapping(value = "/pages/{bno}/{page}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ReplyPageDTO> getList(
       @PathVariable("page") int page, @PathVariable("bno") Long bno) {
-    LOGGER.info("getList.....");
+    log.info("getList.....");
     Criteria cri = new Criteria(page, PageSize.SIZE_10);
-    LOGGER.info("cri: {}", cri);
+    log.info("cri: {}", cri);
     return new ResponseEntity<>(replyService.getListPage(cri, bno), HttpStatus.OK);
   }
 
@@ -73,7 +73,7 @@ public class ReplyController {
    */
   @GetMapping(value = "/{rno}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ReplyVO> get(@PathVariable("rno") Long rno) {
-    LOGGER.info("get: {}", rno);
+    log.info("get: {}", rno);
     return new ResponseEntity<>(replyService.get(rno), HttpStatus.OK);
   }
 
@@ -88,8 +88,8 @@ public class ReplyController {
       value = "/{rno}",
       produces = {MediaType.TEXT_PLAIN_VALUE})
   public ResponseEntity<String> remove(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
-    LOGGER.info("remove: {}", rno);
-    LOGGER.info("replyer: {}", vo.getReplyer());
+    log.info("remove: {}", rno);
+    log.info("replyer: {}", vo.getReplyer());
     try {
       if (replyService.remove(vo.getRno()) == 1) {
         return new ResponseEntity<>("Success", HttpStatus.OK);
@@ -116,7 +116,7 @@ public class ReplyController {
       produces = MediaType.TEXT_PLAIN_VALUE)
   public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno) {
     vo.setRno(rno);
-    LOGGER.info("rno: {}", rno);
+    log.info("rno: {}", rno);
     try {
       if (replyService.modify(vo) == 1) {
         return new ResponseEntity<>("Success", HttpStatus.OK);

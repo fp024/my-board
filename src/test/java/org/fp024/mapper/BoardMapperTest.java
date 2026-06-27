@@ -18,6 +18,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.select;
 import static org.mybatis.dynamic.sql.SqlBuilder.update;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,7 +93,7 @@ class BoardMapperTest {
                 .build()
                 .render(RenderingStrategies.MYBATIS3));
 
-    boardList.forEach(b -> LOGGER.info("{}", b.toString()));
+    boardList.forEach(b -> log.info("{}", b.toString()));
   }
 
   /*
@@ -142,30 +143,7 @@ class BoardMapperTest {
                 .build()
                 .render(RenderingStrategies.MYBATIS3));
 
-    boardList.forEach(b -> LOGGER.info("{}", b.toString()));
-  }
-
-  /** 검색조건 처리를 위해 where 절을 동적으로 만드는 부분을 별도 메서드로 빼야할 것 같다. */
-  @Test
-  void testGetListWithPaging_Hint_with_SearchCondition() {
-    DerivedColumn<Long> ROWNUM = DerivedColumn.of("ROWNUM");
-    DerivedColumn<Long> rn = ROWNUM.as("rn");
-
-    Constant<String> hint = Constant.of("/*+ INDEX_DESC(tbl_board pk_board) */ 'dummy'");
-
-    List<BoardVO> boardList =
-        mapper.selectMany(
-            select(BoardMapper.selectList)
-                .from(
-                    select(hint, rn, bno, title, content, writer, regdate, updateDate, replyCount)
-                        .from(BoardVODynamicSqlSupport.boardVO)
-                        .where(ROWNUM, isLessThanOrEqualTo(10L)))
-                .where(rn, isGreaterThan(0L))
-                .orderBy(bno.descending())
-                .build()
-                .render(RenderingStrategies.MYBATIS3));
-
-    boardList.forEach(b -> LOGGER.info("{}", b.toString()));
+    boardList.forEach(b -> log.info("{}", b.toString()));
   }
 
   @Test
@@ -438,7 +416,7 @@ class BoardMapperTest {
     board.setUpdateDate(null);
 
     mapper.insertSelective(board);
-    LOGGER.info(board.toString());
+    log.info(board.toString());
   }
 
   /** selectByPrimaryKey 가 Optional<T> 로 반환해준다. */
@@ -451,12 +429,12 @@ class BoardMapperTest {
       throw new IllegalStateException("1번 게시물 없음");
     }
 
-    LOGGER.info(board.get().toString());
+    log.info(board.get().toString());
   }
 
   @Test
   void testDelete() {
-    LOGGER.info("DELETE COUNT: {}", mapper.deleteByPrimaryKey(3L));
+    log.info("DELETE COUNT: {}", mapper.deleteByPrimaryKey(3L));
   }
 
   @Test
@@ -467,11 +445,11 @@ class BoardMapperTest {
     board.setTitle("수정된 제목 - jex02");
     board.setContent("수정된 내용 - jex02");
     board.setWriter("user00 - jex02");
-    board.setUpdateDate(LocalDateTime.now());
+    board.setUpdateDate(LocalDateTime.now(ZoneId.systemDefault()));
 
     // Selective로 끝나는 메서드를 사용하면, null로 설정된 값은 업데이트하지 않는다.
     int count = mapper.updateByPrimaryKeySelective(board);
-    LOGGER.info("UPDATE COUNT: {}", count);
+    log.info("UPDATE COUNT: {}", count);
   }
 
   @Test
@@ -482,7 +460,7 @@ class BoardMapperTest {
     board.setTitle("수정된 제목 - jex02 1");
     board.setContent("수정된 내용 - jex02 1");
     board.setWriter("user00 - jex02 1");
-    board.setUpdateDate(LocalDateTime.now());
+    board.setUpdateDate(LocalDateTime.now(ZoneId.systemDefault()));
 
     UpdateStatementProvider updateStatement =
         update(BoardVODynamicSqlSupport.boardVO)
@@ -500,7 +478,7 @@ class BoardMapperTest {
 
     // Selective로 끝나는 메서드를 사용하면, null로 설정된 값은 업데이트하지 않는다.
     int count = mapper.update(updateStatement);
-    LOGGER.info("UPDATE COUNT: {}", count);
+    log.info("UPDATE COUNT: {}", count);
   }
 
   /*
@@ -526,6 +504,6 @@ class BoardMapperTest {
                 .build()
                 .render(RenderingStrategies.MYBATIS3));
 
-    LOGGER.info("totalCount: {}", totalCount);
+    log.info("totalCount: {}", totalCount);
   }
 }

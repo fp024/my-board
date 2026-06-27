@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import lombok.extern.slf4j.Slf4j;
 import org.fp024.config.RootConfig;
 import org.fp024.config.ServletConfig;
@@ -76,7 +77,7 @@ class ReplyControllerTest {
             .getResponse()
             .getContentAsString();
 
-    LOGGER.info("{}", responseContent);
+    log.info("{}", responseContent);
   }
 
   @Test
@@ -89,7 +90,7 @@ class ReplyControllerTest {
             .getResponse()
             .getContentAsString();
 
-    LOGGER.info("{}", responseContent);
+    log.info("{}", responseContent);
   }
 
   /** 응답을 Success 평문으로 받으므로.. /replies/43.json으로 요청 시도할 경우 406 응답을 받게된다. */
@@ -112,14 +113,14 @@ class ReplyControllerTest {
             .getResponse()
             .getContentAsString();
 
-    LOGGER.info("{}", responseContent);
+    log.info("{}", responseContent);
   }
 
   @Test
   void testModify() throws Exception {
     ReplyVO reply = new ReplyVO();
     reply.setRno(2L);
-    reply.setReply(LocalDateTime.now().toString());
+    reply.setReply(LocalDateTime.now(ZoneId.systemDefault()).toString());
 
     String jsonBody = GsonHelper.toJson(reply);
 
@@ -134,6 +135,6 @@ class ReplyControllerTest {
             .getResponse()
             .getContentAsString();
 
-    LOGGER.info("{}", responseContent);
+    log.info("{}", responseContent);
   }
 }

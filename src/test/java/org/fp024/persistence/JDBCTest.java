@@ -1,6 +1,6 @@
 package org.fp024.persistence;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +16,8 @@ class JDBCTest {
 
   public static Properties getDBProperties() {
     Properties properties = new Properties();
-    try (InputStream reader = JDBCTest.class.getClassLoader().getResourceAsStream("database.properties")) {
+    try (InputStream reader =
+        JDBCTest.class.getClassLoader().getResourceAsStream("database.properties")) {
       properties.load(reader);
     } catch (IOException e) {
       throw new IllegalStateException(e);
@@ -28,7 +29,7 @@ class JDBCTest {
     try {
       Class.forName(DATABASE_PROPERTIES.get("jdbc.driver").toString());
     } catch (Exception e) {
-      LOGGER.error(e.getMessage(), e);
+      log.error(e.getMessage(), e);
     }
   }
 
@@ -37,10 +38,12 @@ class JDBCTest {
     final String url = DATABASE_PROPERTIES.get("jdbc.url").toString();
     final String user = DATABASE_PROPERTIES.get("jdbc.username").toString();
     final String password = DATABASE_PROPERTIES.get("jdbc.password").toString();
-    try (Connection con = DriverManager.getConnection(url, user, password)) {
-      LOGGER.info("{}", con);
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
+
+    assertDoesNotThrow(
+        () -> {
+          try (Connection con = DriverManager.getConnection(url, user, password)) {
+            log.info("{}", con);
+          }
+        });
   }
 }

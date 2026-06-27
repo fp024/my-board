@@ -43,7 +43,7 @@ public class ProjectDataUtil {
       try {
         PROPERTIES =
             PropertiesLoaderUtils.loadProperties(new ClassPathResource(PROPERTIES_FILENAME));
-        LOGGER.info("### {} 프로퍼티 파일 로드 성공!!! ^^", PROPERTIES_FILENAME);
+        log.info("### {} 프로퍼티 파일 로드 성공!!! ^^", PROPERTIES_FILENAME);
       } catch (IOException e) {
         throw new IllegalStateException("### " + PROPERTIES_FILENAME + " 프로퍼티 파일 로드 실패 ㅠㅠ", e);
       }

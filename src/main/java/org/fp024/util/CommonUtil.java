@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import lombok.AccessLevel;
@@ -44,7 +45,7 @@ public class CommonUtil {
   }
 
   private static String getFolderBeforeDays(int days, String fileSeparator) {
-    return LocalDateTime.now()
+    return LocalDateTime.now(ZoneId.systemDefault())
         .minusDays(days)
         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         .replace("-", fileSeparator);
@@ -60,7 +61,7 @@ public class CommonUtil {
       String contentType = Files.probeContentType(file.toPath());
       return contentType.startsWith("image");
     } catch (IOException e) {
-      LOGGER.error(e.getMessage(), e);
+      log.error(e.getMessage(), e);
     }
     return false;
   }

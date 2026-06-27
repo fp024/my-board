@@ -1,7 +1,6 @@
 package org.fp024.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import lombok.extern.slf4j.Slf4j;
 import org.fp024.config.RootConfig;
@@ -28,14 +27,14 @@ class ReplyServiceImplTest {
     criteria.setAmount(5);
     criteria.setPageNum(1L);
     List<BoardVO> boardList = boardService.getList(criteria);
-    return boardList.stream().map(BoardVO::getBno).collect(Collectors.toList());
+    return boardList.stream().map(BoardVO::getBno).toList();
   }
 
   @Transactional
   @Test
   void testCreate() {
     List<Long> latestBnoList = latestBoardNoList();
-    LOGGER.info("latestBnoList: {}", latestBnoList);
+    log.info("latestBnoList: {}", latestBnoList);
 
     IntStream.rangeClosed(1, 10)
         .forEach(
@@ -55,7 +54,7 @@ class ReplyServiceImplTest {
   void testRead() {
     long targetRno = 100L;
     ReplyVO vo = replyService.get(targetRno);
-    LOGGER.info("{}", vo);
+    log.info("{}", vo);
   }
 
   @Transactional
@@ -76,7 +75,7 @@ class ReplyServiceImplTest {
 
     int count = replyService.modify(vo);
 
-    LOGGER.info("UPDATE COUNT: {}", count);
+    log.info("UPDATE COUNT: {}", count);
   }
 
   // 페이징 실행 쿼리
@@ -92,6 +91,6 @@ class ReplyServiceImplTest {
   void testListPaging() {
     Criteria cri = new Criteria(4, PageSize.SIZE_10);
     ReplyPageDTO replyPageDTO = replyService.getListPage(cri, 100L);
-    replyPageDTO.getList().forEach(reply -> LOGGER.info("reply: {}", reply));
+    replyPageDTO.getList().forEach(reply -> log.info("reply: {}", reply));
   }
 }

@@ -4,13 +4,11 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.apache.ibatis.type.Alias;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.ibatis.type.Alias;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @ToString
 @Alias("criteria")
@@ -55,7 +53,7 @@ public class Criteria {
   }
 
   public List<String> getSearchCodes() {
-    return searchTypeSet.stream().map(SearchType::getCode).collect(Collectors.toList());
+    return searchTypeSet.stream().map(SearchType::getCode).toList();
   }
 
   /**

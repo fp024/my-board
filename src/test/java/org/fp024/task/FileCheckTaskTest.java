@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -50,9 +51,9 @@ class FileCheckTaskTest {
       BROKEN_FILE_UUID + "_" + BROKEN_FILE_NAME_ONLY;
 
   @BeforeEach
-  public void beforeEach() throws IOException {
+  void beforeEach() throws IOException {
     mockedJSONContext = mockStatic(LocalDateTime.class, Mockito.CALLS_REAL_METHODS);
-    LocalDateTime testCurrentNow = LocalDateTime.of(2022, 12, 2, 2, 0, 0, 0);
+    LocalDateTime testCurrentNow = LocalDateTime.of(2022, Month.DECEMBER, 2, 2, 0, 0, 0);
     mockedJSONContext.when(LocalDateTime::now).thenReturn(testCurrentNow);
 
     task = new FileCheckTask(uploadDirRoot.getAbsolutePath(), attachMapper);
@@ -72,12 +73,12 @@ class FileCheckTaskTest {
     attachFile.createNewFile();
     thumbnailAttachFile.createNewFile();
 
-    assertThat(attachFile.exists()).isTrue();
-    assertThat(thumbnailAttachFile.exists()).isTrue();
+    assertThat(attachFile).exists();
+    assertThat(thumbnailAttachFile).exists();
   }
 
   @AfterEach
-  public void afterEach() {
+  void afterEach() {
     if (mockedJSONContext != null) {
       mockedJSONContext.close();
     }
@@ -106,8 +107,12 @@ class FileCheckTaskTest {
     task.checkFiles();
 
     // then
-    assertThat(attachFile.exists()).isTrue().as("게시물과 연관된 첨부파일은 삭제하지 않음");
-    assertThat(brokenAttachFile.exists()).isFalse().as("게시물과 연관이 끊긴 첨부파일은 삭제함");
+    assertThat(attachFile) //
+        .as("게시물과 연관된 첨부파일은 삭제하지 않음")
+        .exists();
+    assertThat(brokenAttachFile) //
+        .as("게시물과 연관이 끊긴 첨부파일은 삭제함")
+        .doesNotExist();
   }
 
   private List<BoardAttachVO> getOldFilesTestData() {

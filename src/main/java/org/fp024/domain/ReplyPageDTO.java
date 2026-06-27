@@ -1,11 +1,10 @@
 package org.fp024.domain;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.fp024.domain.generated.ReplyVO;
-
-import java.util.List;
 
 /** Gson의 경우 필드기반 직렬화를 하여, getPageNavigationSize()를 직렬화하지 않는다. */
 @RequiredArgsConstructor

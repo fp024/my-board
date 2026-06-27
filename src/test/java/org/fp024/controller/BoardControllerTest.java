@@ -55,7 +55,7 @@ class BoardControllerTest {
             .andReturn()
             .getModelAndView()
             .getModelMap();
-    LOGGER.info("result: {}", result);
+    log.info("result: {}", result);
 
     Criteria criteria = (Criteria) result.get("criteria");
     assertEquals(
@@ -78,7 +78,7 @@ class BoardControllerTest {
             .getModelAndView()
             .getViewName();
 
-    LOGGER.info("viewName: {}", viewName);
+    log.info("viewName: {}", viewName);
 
     assertEquals("redirect:/board/list", viewName);
   }
@@ -94,7 +94,7 @@ class BoardControllerTest {
             .getModelAndView()
             .getModelMap();
 
-    LOGGER.info("modelMap: {}", getResult);
+    log.info("modelMap: {}", getResult);
   }
 
   @Test
@@ -112,7 +112,7 @@ class BoardControllerTest {
             .getModelAndView()
             .getViewName();
 
-    LOGGER.info("resultPage: {}", resultPage);
+    log.info("resultPage: {}", resultPage);
     assertEquals("redirect:/board/list" + criteria.getLink(), resultPage);
   }
 
@@ -127,7 +127,7 @@ class BoardControllerTest {
             .getModelAndView()
             .getViewName();
 
-    LOGGER.info("resultPage: {}", resultPage);
+    log.info("resultPage: {}", resultPage);
     assertEquals("redirect:/board/list" + criteria.getLink(), resultPage);
   }
 }

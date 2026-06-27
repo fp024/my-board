@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.time.LocalDateTime;
+import java.time.Month;
 import lombok.extern.slf4j.Slf4j;
 import org.fp024.domain.generated.ReplyVO;
 import org.junit.jupiter.api.Test;
@@ -21,13 +22,13 @@ class GsonHelperTest {
             .create();
 
     assertThat(
-        gson.toJson(LocalDateTime.of(2022, 1, 2, 3, 4, 5, 0)), //
+        gson.toJson(LocalDateTime.of(2022, Month.JANUARY, 2, 3, 4, 5, 0)), //
         is("[2022,1,2,3,4,5]"));
 
     ReplyVO vo = new ReplyVO();
 
-    vo.setReplyDate(LocalDateTime.of(2022, 1, 2, 3, 4, 5, 0));
+    vo.setReplyDate(LocalDateTime.of(2022, Month.JANUARY, 2, 3, 4, 5, 0));
 
-    LOGGER.info(gson.toJson(vo));
+    log.info(gson.toJson(vo));
   }
 }
