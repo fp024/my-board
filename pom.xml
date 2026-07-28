@@ -62,7 +62,7 @@
 
 
     <!-- ### Jetty Maven 플러그인 설정 ### -->
-    <jetty.version>12.1.10</jetty.version>
+    <jetty.version>12.1.11</jetty.version>
     <!-- Jetty Http 포트 기본값 -->
     <jetty.port>8080</jetty.port>
     <!-- Jetty Context Path 설정 기본값 -->
@@ -73,9 +73,9 @@
 
     <!-- ### Cargo Maven 플러그인 설정 ### -->
     <!-- Tomcat 11.0.x는 Servlet 6.1을 정식 지원함. -->
-    <cargo.version>1.10.27</cargo.version>
+    <cargo.version>1.10.28</cargo.version>
     <cargo.tomcat-containerId>tomcat11x</cargo.tomcat-containerId>
-    <cargo.tomcat-version>11.0.23</cargo.tomcat-version>
+    <cargo.tomcat-version>11.0.24</cargo.tomcat-version>
     <cargo.context-path>${jetty.context-path}</cargo.context-path>
     <cargo.server-port>${jetty.port}</cargo.server-port>
 
