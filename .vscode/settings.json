@@ -9,7 +9,7 @@
     },
     {
       "command": "-DskipTests clean prepare-package war:exploded"
-    },
+    }
   ],
   "[java]": {
     "editor.formatOnSave": true
