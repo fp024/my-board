@@ -7,11 +7,16 @@ ignorePaths:
 dictionaryDefinitions: []
 dictionaries: []
 words:
+  - classfile
   - classloaders
   - CLOB
+  - codehaus
+  - deployables
   - Dlvq
   - Dskip
   - errorlevel
+  - fileset
+  - filesets
   - FREEPDB
   - Gson
   - gvenzl
@@ -23,6 +28,7 @@ words:
   - NEXTVAL
   - NOCACHE
   - NOCYCLE
+  - ojdbc
   - oradata
   - Pjetty
   - Plinux
@@ -39,6 +45,7 @@ words:
   - sqlplus
   - SYSTIMESTAMP
   - TABLESPACE
+  - taglibs
   - temurin
   - Thumbnailator
   - typehandler

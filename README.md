@@ -8,8 +8,8 @@
 
 ## 프로젝트 사양
 
-* Maven 빌드
-* Java 21
+* Maven 4 빌드
+* Java 25
 * Spring 7
 * Spring Security 7
 * Tomcat 11

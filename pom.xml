@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.1.0 http://maven.apache.org/xsd/maven-4.1.0.xsd"
+         root="true">
+  <modelVersion>4.1.0</modelVersion>
   <groupId>org.fp024</groupId>
   <artifactId>my-board</artifactId>
   <version>1.0.0-SNAPSHOT</version>
@@ -10,7 +11,7 @@
   <packaging>war</packaging>
 
   <properties>
-    <java.version>21</java.version>
+    <java.version>25</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -25,15 +26,15 @@
 
     <lombok.version>1.18.46</lombok.version>
 
-    <spring.version>7.0.8</spring.version>
-    <spring-security.version>7.1.0</spring-security.version>
+    <spring.version>7.0.9</spring.version>
+    <spring-security.version>7.1.1</spring-security.version>
 
     <mybatis.version>3.5.19</mybatis.version>
     <mybatis-spring.version>4.1.0</mybatis-spring.version>
     <mybatis-dynamic-sql.version>2.0.0</mybatis-dynamic-sql.version>
 
     <hikaricp.version>7.1.0</hikaricp.version>
-    <ojdbc17.version>23.26.2.0.0</ojdbc17.version>
+    <ojdbc17.version>23.26.3.0.0</ojdbc17.version>
     <hsqldb.version>2.7.4</hsqldb.version>
 
     <log4j.version>2.26.1</log4j.version>
@@ -43,7 +44,7 @@
     <thumbnailator.version>0.4.21</thumbnailator.version>
 
 
-    <junit.version>6.1.1</junit.version>
+    <junit.version>6.1.3</junit.version>
     <mockito.version>5.23.0</mockito.version>
     <hamcrest.version>3.0</hamcrest.version>
     <assertj.version>3.27.7</assertj.version>
@@ -57,12 +58,12 @@
     <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
     <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
-    <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+    <maven-toolchains-plugin.version>3.3.0</maven-toolchains-plugin.version>
     <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
 
 
     <!-- ### Jetty Maven 플러그인 설정 ### -->
-    <jetty.version>12.1.11</jetty.version>
+    <jetty.version>12.1.12</jetty.version>
     <!-- Jetty Http 포트 기본값 -->
     <jetty.port>8080</jetty.port>
     <!-- Jetty Context Path 설정 기본값 -->
@@ -75,7 +76,7 @@
     <!-- Tomcat 11.0.x는 Servlet 6.1을 정식 지원함. -->
     <cargo.version>1.10.28</cargo.version>
     <cargo.tomcat-containerId>tomcat11x</cargo.tomcat-containerId>
-    <cargo.tomcat-version>11.0.24</cargo.tomcat-version>
+    <cargo.tomcat-version>11.0.25</cargo.tomcat-version>
     <cargo.context-path>${jetty.context-path}</cargo.context-path>
     <cargo.server-port>${jetty.port}</cargo.server-port>
 

@@ -22,7 +22,7 @@ services:
       start_interval: 5s
 
   web-tomcat:
-    image: tomcat:11.0-jdk21-temurin
+    image: tomcat:11.0-jdk25-temurin
     container_name: my-board-tomcat11
     entrypoint: sh -c "mkdir -p /upload /upload/temp && catalina.sh run"
     depends_on:
