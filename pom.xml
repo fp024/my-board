@@ -24,12 +24,12 @@
     <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
     <java-time-jsptags.version>2.0.2</java-time-jsptags.version>
 
-    <lombok.version>1.18.46</lombok.version>
+    <lombok.version>1.18.48</lombok.version>
 
-    <spring.version>7.0.9</spring.version>
-    <spring-security.version>7.1.1</spring-security.version>
+    <spring.version>7.0.10</spring.version>
+    <spring-security.version>7.1.2</spring-security.version>
 
-    <mybatis.version>3.5.19</mybatis.version>
+    <mybatis.version>3.6.0</mybatis.version>
     <mybatis-spring.version>4.1.0</mybatis-spring.version>
     <mybatis-dynamic-sql.version>2.0.0</mybatis-dynamic-sql.version>
 
@@ -38,14 +38,14 @@
     <hsqldb.version>2.7.4</hsqldb.version>
 
     <log4j.version>2.26.1</log4j.version>
-    <aspectj.version>1.9.25.1</aspectj.version>
+    <aspectj.version>1.9.26</aspectj.version>
     <quartz.version>2.5.2</quartz.version>
-    <gson.version>2.14.0</gson.version>
+    <gson.version>2.15.0</gson.version>
     <thumbnailator.version>0.4.21</thumbnailator.version>
 
 
     <junit.version>6.1.3</junit.version>
-    <mockito.version>5.23.0</mockito.version>
+    <mockito.version>5.24.0</mockito.version>
     <hamcrest.version>3.0</hamcrest.version>
     <assertj.version>3.27.7</assertj.version>
     <json-path.version>3.0.0</json-path.version>
@@ -55,15 +55,15 @@
     <mybatis-generator-maven-plugin.version>2.0.0</mybatis-generator-maven-plugin.version>
     <maven-war-plugin.version>3.5.1</maven-war-plugin.version>
     <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
-    <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
-    <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>3.6.1</maven-surefire-plugin.version>
+    <maven-compiler-plugin.version>3.16.0</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
     <maven-toolchains-plugin.version>3.3.0</maven-toolchains-plugin.version>
     <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
 
 
     <!-- ### Jetty Maven 플러그인 설정 ### -->
-    <jetty.version>12.1.12</jetty.version>
+    <jetty.version>12.1.14</jetty.version>
     <!-- Jetty Http 포트 기본값 -->
     <jetty.port>8080</jetty.port>
     <!-- Jetty Context Path 설정 기본값 -->
@@ -74,9 +74,9 @@
 
     <!-- ### Cargo Maven 플러그인 설정 ### -->
     <!-- Tomcat 11.0.x는 Servlet 6.1을 정식 지원함. -->
-    <cargo.version>1.10.28</cargo.version>
+    <cargo.version>1.10.29</cargo.version>
     <cargo.tomcat-containerId>tomcat11x</cargo.tomcat-containerId>
-    <cargo.tomcat-version>11.0.25</cargo.tomcat-version>
+    <cargo.tomcat-version>11.0.27</cargo.tomcat-version>
     <cargo.context-path>${jetty.context-path}</cargo.context-path>
     <cargo.server-port>${jetty.port}</cargo.server-port>
 
@@ -633,7 +633,8 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
+          <argLine>-javaagent:${org.mockito:mockito-core:jar} -Xshare:off</argLine>
+          <!-- <argLine>-XX:+EnableDynamicAgentLoading -Xshare:off</argLine> -->
         </configuration>
       </plugin>
       <plugin>
